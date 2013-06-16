@@ -9,6 +9,8 @@ from IR_Models import NelsonSiegel
 from IR_Models import Svensson
 from rates import conversion as cv
 
+print "This is the file for Question 9 and 10"
+
 dataFileName = 'HW1_data.csv'
 T, DF = fileOperations.getFile(dataFileName)
 spotRates = cv.rates(DF, T)
