@@ -5,6 +5,7 @@ Created on Jun 17, 2013
 '''
 
 import math as m
+import numpy as nm
 
 class YieldCurve(object):
 
@@ -28,8 +29,27 @@ class YieldCurve(object):
                 rates.append((pow(df, - 1/(t*feq))-1)*feq)
         return rates
 
-    def getForwardRates(self, feq=-1):
-        forwardRates = []
+    def getForwardRates_PeriodByPeriod(self, feq=-1):
         if feq == -1:
-            for t, df, i in zip(self.T, self.Df, range(len(self.T))):
+            forwardRates = [-m.log(self.Df[0]) / self.T[0]]
+            for i in range(len(self.DF)-1):
+                dT = self.T[i+1] - self.T[i]
+                forwardRates.append(-m.log(self.DF[i+1]/self.DF[i]) / dT)
+        else:
+            forwardRates = [(pow(self.DF[0], -1/self.T[0] / feq) - 1) * feq]
+            for i in range(len(self.DF) -1):
+                dT = self.T[i+1] - self.T[i]
+                forwardRates.append((pow(self.DF[i+1]/self.DF[i], -1 / dT /feq) - 1) * feq)
+        return forwardRates
     
+    def getInterpolatedRates(self, T_int, feq = -1):
+        '''
+        Assume that the interpolate points T_int are in increasing order
+        '''
+        currentRates = self.getSpotRates(feq) ## Get the current rates
+        
+        
+        
+        
+        
+                
