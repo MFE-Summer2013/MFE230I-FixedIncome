@@ -12,7 +12,6 @@ class Polynomial():
         '''
         Constructor
         '''
-    
     def estimate(self,DF,T):
 
         DF = np.asmatrix(DF)
