@@ -21,7 +21,7 @@ class Svensson(object):
         self.param = [0,0,0,0,0,0]
     
     def estimate(self, init, DF,T, durationWeighting = False):
-        result = optimize.fmin(SV_error, init, (T,DF,durationWeighting))
+        result = optimize.fmin(SV_error, init, args=(T,DF,durationWeighting),maxfun=10000)
         self.param = result.tolist()
 
     def fit(self, T):
@@ -33,7 +33,7 @@ class Svensson(object):
         return fitted_y
     
     def getEstError(self, DF, T, durationWeighting = False):
-        return SV_error(self.param, DF, T, durationWeighting)
+        return SV_error(self.param, T, DF, durationWeighting)
 
 def SV_error(param, *data):
     #param beta_1, beta_2, beta_3, lambda2, lambda3
@@ -52,7 +52,7 @@ def SV_error(param, *data):
     fitted_y  = param[0] +  short_end + hump1 + hump2
     fitted_DF = ys.spotRates_to_DF(fitted_y, T)
     
-    weights = 1 + (T-1) * I_w;
+    weights = 1 + (1/T-1) * I_w;
     
     error2 = np.power(fitted_DF - DF, 2) * weights
     return sum(error2);

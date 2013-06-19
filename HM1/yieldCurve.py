@@ -42,7 +42,7 @@ class YieldCurve(object):
     
     def plotCurve(self,feq = -1):
         spotRates = self.getSpotRates(feq)
-        plt.plot(self.T,spotRates)
+        plt.plot(self.T,spotRates, label ='Spot Rates')
 
     def getDiscountFactor(self):
         return self.DF
