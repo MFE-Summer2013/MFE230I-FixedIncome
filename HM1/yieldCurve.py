@@ -103,7 +103,7 @@ class YieldCurve(object):
         if startT == 0:
             DF_start = [1];
         else:
-            startT, DF_start = self.getInterpolatedDF(startT, 2)
+            startT, DF_start = self.getInterpolatedDF([startT], 2)
         
         FDF_i = np.asarray(DF_i) / DF_start[0]
         f = lambda i: 2*(1-FDF_i[i]) / np.sum(FDF_i[i::-1])

@@ -13,8 +13,6 @@ import matplotlib.pyplot as plt
 if __name__ == '__main__':
     pass
 
-
-
 T, DF = readData.readFile('HW1_data.csv')
 myCurve = yieldCurve.YieldCurve()
 myCurve.setCurve(T, DF)
@@ -30,10 +28,21 @@ startT = np.linspace(0.25, 25, 25*4)
 endT = startT + 0.25;
 
 T_1, paryield = myCurve.getParYield()
+T_i, for_paryield = myCurve.getParYield(5)
+
+from IR_Models import Polynomial
+
+myModel = Polynomial.Polynomial()
+myModel.estimate(DF, T)
+DF_fit =  myModel.fit(T)
+rate_fit = yieldCurve.DF_to_Rates(DF_fit, T, 2)
+
+plt.figure(4)
+myCurve.plotCurve(2)
+plt.plot(T, rate_fit)
+
 plt.figure(3)
 plt.plot(T_1,paryield)
-
-print 'Testing packages'
-print 'testing packages2'
+plt.plot(T_i,for_paryield,'r')
 
 plt.show()
