@@ -1,5 +1,4 @@
 
-
 '''
 Created on Jun 18, 2013
 
@@ -13,6 +12,8 @@ import matplotlib.pyplot as plt
 
 if __name__ == '__main__':
     pass
+
+
 
 T, DF = readData.readFile('HW1_data.csv')
 myCurve = yieldCurve.YieldCurve()
