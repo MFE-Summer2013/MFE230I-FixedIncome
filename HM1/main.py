@@ -5,7 +5,6 @@ Created on Jun 18, 2013
 @author: Billy
 '''
 
-import numpy as np
 import readData
 import yieldCurve
 import matplotlib.pyplot as plt
@@ -19,30 +18,27 @@ myCurve.setCurve(T, DF)
 myCurve.plotCurve(2);
 myCurve.exportSpotRates('rates.csv', 2)
 
-T_i = np.linspace(0,25, 25*4+1)
-T_i, rates = myCurve.getInterpolatedRates(T_i, 2);
+from IR_Models import NelsonSiegel as NS
+from IR_Models import Svensson as SV
 
-plt.plot(T_i, rates, 'r')
+myModel = NS.NelsonSiegel()
+myModel.estimate([0.045, 0.02, 0.02, 0.1, 0.1], DF, T, False)
+plt.figure(2)
+print myModel.param
+print myModel.getEstError(DF, T, False)
+r_fit =  myModel.fit(T)
+plt.plot(T, myCurve.getSpotRates())
+plt.plot(T, r_fit)
 
-startT = np.linspace(0.25, 25, 25*4)
-endT = startT + 0.25;
 
-T_1, paryield = myCurve.getParYield()
-T_i, for_paryield = myCurve.getParYield(5)
-
-from IR_Models import Polynomial
-
-myModel = Polynomial.Polynomial()
-myModel.estimate(DF, T)
-DF_fit =  myModel.fit(T)
-rate_fit = yieldCurve.DF_to_Rates(DF_fit, T, 2)
-
-plt.figure(4)
-myCurve.plotCurve(2)
-plt.plot(T, rate_fit)
-
+myModel2 = SV.Svensson()
+myModel2.estimate([0.045, -0.01, 0.01, 0.02, -0.2, 0.1], DF, T, False)
 plt.figure(3)
-plt.plot(T_1,paryield)
-plt.plot(T_i,for_paryield,'r')
+print myModel2.param
+print myModel2.getEstError(DF, T, False)
+r_fit =  myModel2.fit(T)
+plt.plot(T, myCurve.getSpotRates())
+plt.plot(T, r_fit)
+
 
 plt.show()
