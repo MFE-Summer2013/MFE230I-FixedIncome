@@ -97,7 +97,7 @@ class YieldCurve(object):
         f = lambda i: 2*(1-DF_i[i]) / np.sum(DF_i[i::-2])
         return T_i, map(f,range(len(T_i)))
         '''
-        T_i = np.arange(startT + 0.5, self.T[-1], 0.5)
+        T_i = np.arange(startT + 0.5, self.T[-1]+0.5, 0.5)
         T_i, DF_i = self.getInterpolatedDF(T_i, 2)
         
         if startT == 0:
