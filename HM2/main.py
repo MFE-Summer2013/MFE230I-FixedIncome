@@ -73,6 +73,9 @@ plt.plot(T_par,ModDuration2,'b--', label="Mod Duration 2%")
 plt.plot(T_par,MacDuration12,'g', label="Mac Duration 12%")
 plt.plot(T_par,ModDuration12,'g--', label="Mod Duration 12%")
 plt.legend(loc = 4,prop={'size':10})
+plt.ylabel('Duration (Years)')
+plt.xlabel('Time to Maturity')
+
 
 # QUESTION 3
 modDuration_10Y_par = ModDuration[10*2-1];
