@@ -18,15 +18,23 @@ if __name__ == '__main__':
 font = {'family' : 'Arial'}
 matplotlib.rc('font', **font)
 
+
 ## READ DATA FROM THE FILE
 T, DF = readData.readFile('HW1_data.csv')
 
+#FIT POLYNOMIAL MODEL
+from IR_Models import Polynomial
+poly_model = Polynomial.Polynomial()
+poly_model.estimate(DF, T)
+
 ## SET YILED CURVE
-dataCurve = yc.YieldCurve()
-dataCurve.setCurve(T, DF)
+T = np.arange(0.5, 30.5, 0.5)
+DF = poly_model.fit(T)
+fitCurve = yc.YieldCurve()
+fitCurve.setCurve(T, DF)
 
 # GET THE PARYIELD
-T_par, parYield = dataCurve.getParYield();
+T_par, parYield = fitCurve.getParYield();
 
 MacDuration = []
 ModDuration = []
@@ -34,9 +42,9 @@ DV01 = []
 
 for t, py in zip(T_par, parYield):
     myBond = Bond.Bond(100, py, t)
-    MacDuration.append(myBond.getMacDuration(dataCurve))
-    ModDuration.append(myBond.getModDuration(dataCurve))
-    DV01.append(myBond.getDV01(dataCurve))
+    MacDuration.append(myBond.getMacDuration(fitCurve))
+    ModDuration.append(myBond.getModDuration(fitCurve))
+    DV01.append(myBond.getDV01(fitCurve))
 plt.figure(1)    
 plt.subplot(1,2,1)
 plt.plot(T_par,MacDuration, label="Mac Duration")
@@ -61,11 +69,11 @@ for t in T_par:
     myBond2 = Bond.Bond(100, 0.02, t)
     myBond12 = Bond.Bond(100,12, t)
     
-    MacDuration2.append(myBond2.getMacDuration(dataCurve))
-    ModDuration2.append(myBond2.getModDuration(dataCurve))
+    MacDuration2.append(myBond2.getMacDuration(fitCurve))
+    ModDuration2.append(myBond2.getModDuration(fitCurve))
     
-    MacDuration12.append(myBond12.getMacDuration(dataCurve))
-    ModDuration12.append(myBond12.getModDuration(dataCurve))
+    MacDuration12.append(myBond12.getMacDuration(fitCurve))
+    ModDuration12.append(myBond12.getModDuration(fitCurve))
 
 plt.figure(3)
 plt.plot(T_par,MacDuration2,'b', label="Mac Duration 2%")
@@ -100,7 +108,7 @@ print weights
 # QUESTION 7
 print "\n===QUESTION 7 ===\n"
 
-spotRates       = dataCurve.getSpotRates(2);
+spotRates       = fitCurve.getSpotRates(2);
 
 upward_10bp     = np.asarray(spotRates) + 10.0/10000
 upward_300bp    = np.asarray(spotRates) + 300.0/10000
@@ -135,7 +143,7 @@ exactChange_d300bp = []
 for t, py in zip(T_par, parYield):
     
     parBond = Bond.Bond(100,py,t)
-    modDuration = parBond.getModDuration(dataCurve)
+    modDuration = parBond.getModDuration(fitCurve)
     
     approxChange_u10bp.append( - modDuration * 100 * 10/10000)
     approxChange_d10bp.append( + modDuration * 100 * 10/10000)
