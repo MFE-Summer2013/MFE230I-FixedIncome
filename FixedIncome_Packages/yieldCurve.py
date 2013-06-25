@@ -1,7 +1,7 @@
-'''
+'''@package YieldCurve
 Created on Jun 17, 2013
-
 @author: Billy
+@copyright: Billy, James, Viola, Tony
 '''
 
 import math as m
@@ -11,6 +11,13 @@ import csv
 
 
 def spotRates_to_DF(rates, T, feq = -1):
+    """ This function converts the spot rates to discount factors
+    @param rates: spot rates
+    @param T:     vector that contains the time indices
+    @param feq:   compounding frequencies
+        
+    """
+    
     DF = []
     if feq == -1:
         for r, t in zip(rates, T):
