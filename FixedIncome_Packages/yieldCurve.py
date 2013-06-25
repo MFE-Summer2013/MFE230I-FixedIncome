@@ -118,7 +118,7 @@ class YieldCurve(object):
                         
     def getForwardRates_PeriodByPeriod(self, feq=-1):
         '''
-        Compute the forward rates 
+        Compute the forward rates
         '''
         if feq == -1:
             forwardRates = [-m.log(self.Df[0]) / self.T[0]]
