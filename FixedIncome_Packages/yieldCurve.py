@@ -1,8 +1,3 @@
-'''@package YieldCurve
-Created on Jun 17, 2013
-@author: Billy
-@copyright: Billy, James, Viola, Tony
-'''
 
 import math as m
 import numpy as np
@@ -12,10 +7,10 @@ import csv
 
 def spotRates_to_DF(rates, T, feq = -1):
     """ This function converts the spot rates to discount factors
-    @param rates: spot rates
-    @param T:     vector that contains the time indices
-    @param feq:   compounding frequencies
-        
+    
+    :param rates: spot rates
+    :param T:     vector that contains the time indices
+    :param feq:   compounding frequencies
     """
     
     DF = []
@@ -28,6 +23,12 @@ def spotRates_to_DF(rates, T, feq = -1):
     return DF
 
 def DF_to_Rates(DF, T, feq=-1):
+    """ This function converts the discount factors to 
+    
+    :param rates: spot rates
+    :param T:     vector that contains the time indices
+    :param feq:   compounding frequencies
+    """
     rates = []
     if feq == -1:  ##CONTINUOUS COMPONDING RATES
         for t, df in zip(T, DF):
@@ -38,26 +39,60 @@ def DF_to_Rates(DF, T, feq=-1):
     return rates
 
 class YieldCurve(object):
+    '''
+    The Yield Curve class that stores the the discount factor / time to maturity 
+    that facilitates automatic rates conversions, rates interpolation etc.
+    '''
 
     def __init__(self):
         self.DF = []
         self.T = []
     
     def setCurve(self, T, DF):
+        '''
+        Initialize the yield curve with time to maturity and discount rates
+        
+        :param T: Time to maturity
+        :param DF: Discount Rate
+        
+        .. warning:: must make sure that T and DF must have the same length
+        '''
         self.DF = DF
         self.T  = T
     
     def plotCurve(self,feq = -1):
+        '''
+        Plot the Curve.
+        
+        Note the plt.show() is needed in the main code to show the plot
+        '''
         spotRates = self.getSpotRates(feq)
         plt.plot(self.T,spotRates, label ='Spot Rates')
 
     def getDiscountFactor(self):
+        '''
+        Returns discount factor
+        
+        :returns: Discount factor of the yield curve
+        '''
         return self.DF
     
     def getMaturityDate(self):
+        '''
+        Returns the maturity date of yield curve
+        
+        :returns: Maturity date
+        '''
         return self.T
         
     def getSpotRates(self, feq=-1):
+        '''
+        Compute the spot rates with respect to certain compounding frequencies, default is -1, which is corresponding to continuous compounding.
+        
+        :param feq: compounding frequencies, feq = -1 indicates continous compounding
+        :returns: Spot rates of certain compounding frequencies
+        '''
+        
         rates = []
         if feq == -1:  ##CONTINUOUS COMPONDING RATES
             for t, df in zip(self.T, self.DF):
@@ -68,6 +103,12 @@ class YieldCurve(object):
         return rates
 
     def exportSpotRates(self, exportFileName, feq=-1):
+        '''
+        Export the spot rates of certain compounding frequencies to a csv file
+        
+        :param feq: compounding frequencies
+        :param exportFileName: path and the name of the file to be exported
+        '''
         rates = self.getSpotRates(feq);
         with open(exportFileName, 'wb') as f:
             writer = csv.writer(f, delimiter = ',')
@@ -76,6 +117,9 @@ class YieldCurve(object):
                 writer.writerow([t,r])
                         
     def getForwardRates_PeriodByPeriod(self, feq=-1):
+        '''
+        Compute the forward rates 
+        '''
         if feq == -1:
             forwardRates = [-m.log(self.Df[0]) / self.T[0]]
             for i in range(len(self.DF)-1):

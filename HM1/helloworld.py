@@ -4,3 +4,4 @@ print 'hello world!'
 print "This is nothing"
 
 print "lala"
+print "lala"
