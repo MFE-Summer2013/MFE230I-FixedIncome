@@ -5,3 +5,4 @@ Created on Jun 18, 2013
 '''
 
 print "hello kitty"
+print "test"
