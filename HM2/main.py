@@ -28,7 +28,7 @@ poly_model = Polynomial.Polynomial()
 poly_model.estimate(DF, T)
 
 ## SET YILED CURVE
-T = np.arange(0.5, 30.5, 0.5)
+T = np.arange(0.5, 31, 0.5)
 DF = poly_model.fit(T)
 fitCurve = yc.YieldCurve()
 fitCurve.setCurve(T, DF)
