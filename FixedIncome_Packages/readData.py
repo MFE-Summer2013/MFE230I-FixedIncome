@@ -11,4 +11,4 @@ def readFile (fileName,nl_skip=0):
         lines=[line.strip().split(',') for line in file.readlines()[nl_skip:]]
     
     T,DF=zip(*lines)
-    return np.array(T).astype(float).tolist(),np.array(DF).astype(float).tolist()
+    return np.array(T).astype(float).tolist(), (np.array(DF).astype(float)/100).tolist()
