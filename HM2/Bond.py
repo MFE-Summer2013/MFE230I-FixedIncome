@@ -42,7 +42,8 @@ class Bond(object):
     def getMacDuration(self, curve):
         
         bondPrice = self.getBondPrice(curve)
-        
+        y = self.getYTM(bondPrice)
+        '''
         timeStamp = np.arange(1.0/self.feq, self.T + 1.0/self.feq, 1.0/self.feq)
         timeStamp, DF = curve.getInterpolatedDF(timeStamp,self.feq)
         
@@ -50,6 +51,9 @@ class Bond(object):
         for t, df in zip(timeStamp, DF):
             sumDuration += t * df * self.face * self.c / self.feq
         return sumDuration / bondPrice;
+        '''    
+        return 1./self.feq + 1./y + (self.T*(y-self.c) - (1+y/self.feq))/(self.c*( m.pow(1+y/self.feq,self.feq*self.T)-1)+y)
+        
     
     def getModDuration(self, curve):
 
@@ -61,7 +65,7 @@ class Bond(object):
         
         ModDuration = self.getModDuration(curve)
         bondPrice   = self.getBondPrice(curve)
-        return ModDuration * bondPrice  / self.face;
+        return ModDuration * bondPrice  / 10000
             
     def getYTM(self,bondPrice):
         error_function = lambda y: abs(bondPrice - self.getBondPrice_usingYTM(y));

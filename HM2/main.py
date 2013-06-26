@@ -18,7 +18,6 @@ if __name__ == '__main__':
 font = {'family' : 'Arial'}
 matplotlib.rc('font', **font)
 
-
 ## READ DATA FROM THE FILE
 T, DF = readData.readFile('HW1_data.csv')
 
@@ -28,7 +27,7 @@ poly_model = Polynomial.Polynomial()
 poly_model.estimate(DF, T)
 
 ## SET YILED CURVE
-T = np.arange(0.5, 30.5, 0.5)
+T = np.arange(0.5, 31, 0.5)
 DF = poly_model.fit(T)
 fitCurve = yc.YieldCurve()
 fitCurve.setCurve(T, DF)
@@ -83,7 +82,6 @@ plt.plot(T_par,ModDuration12,'g--', label="Mod Duration 12%")
 plt.legend(loc = 4,prop={'size':10})
 plt.ylabel('Duration (Years)')
 plt.xlabel('Time to Maturity')
-
 
 # QUESTION 3
 modDuration_10Y_par = ModDuration[10*2-1];
