@@ -19,7 +19,7 @@ font = {'family' : 'Arial'}
 matplotlib.rc('font', **font)
 
 ## READ DATA FROM THE FILE
-T, DF = readData.readFile('HW1_data.csv')
+T, DF = readData.readFile('HW1_data.csv',1)
 
 #FIT POLYNOMIAL MODEL
 from IR_Models import Polynomial
@@ -92,7 +92,7 @@ print "Duration (Mod) of 10 Year Bond:     %f"%(modDuration_10Y_par)
 print "Duration (Mod) of 5  Year Bond:     %f"%(modDuration_05Y_par)
 print "Duration (Mod) of 15  Year Bond:    %f"%(modDuration_15Y_par)
 print "Position of 5 Year Bond:            %f"%(-(modDuration_10Y_par / modDuration_05Y_par) * 100)
-print "Position of 15 Year Bond:           %f"%(-(modDuration_15Y_par / modDuration_05Y_par) * 100)
+print "Position of 15 Year Bond:           %f"%(-(modDuration_10Y_par / modDuration_15Y_par) * 100)
 
 # QUESTION 4
 
@@ -102,6 +102,17 @@ print "====QUESTION 4 ===\n"
 weights = np.linalg.inv(computeMatrix) * targetMatrix;
 print "The Weights of the 5 and 15-y bonds are "
 print weights
+
+# QUESTION 56
+print "\n===QUESTION 5+6 ==="
+bond1y = Bond.Bond(100,0,1)
+bond3y = Bond.Bond(100,0,3)
+bond7y = Bond.Bond(100,0,7)
+
+print "Year, \t Mac Dura. \t Mod Dura"
+print "%d \t %f \t %f"%(1,bond1y.getMacDuration(fitCurve), bond1y.getModDuration(fitCurve))
+print "%d \t %f \t %f"%(3,bond3y.getMacDuration(fitCurve), bond3y.getModDuration(fitCurve))
+print "%d \t %f \t %f"%(7,bond7y.getMacDuration(fitCurve), bond7y.getModDuration(fitCurve))
 
 # QUESTION 7
 print "\n===QUESTION 7 ===\n"

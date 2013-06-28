@@ -61,6 +61,7 @@ plt.figure(2)
 from IR_Models import Polynomial
 poly_model = Polynomial.Polynomial()
 poly_model.estimate(DF, T)
+print poly_model.param
 
 fit_T = np.arange(0.5, 30, 0.5)
 fit_DF = poly_model.fit(fit_T)
