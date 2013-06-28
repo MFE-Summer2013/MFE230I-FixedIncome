@@ -15,7 +15,7 @@ class Bond(object):
         Constructor
         '''
         self.face = face
-        self.c = c
+        self.c = c  
         self.T = T
         self.feq = feq
         
@@ -42,24 +42,14 @@ class Bond(object):
         
         bondPrice = self.getBondPrice(curve)
         y = self.getYTM(bondPrice)
-        '''
-        timeStamp = np.arange(1.0/self.feq, self.T + 1.0/self.feq, 1.0/self.feq)
-        timeStamp, DF = curve.getInterpolatedDF(timeStamp,self.feq)
-        
-        sumDuration = timeStamp[-1] * DF[-1] * self.face
-        for t, df in zip(timeStamp, DF):
-            sumDuration += t * df * self.face * self.c / self.feq
-        return sumDuration / bondPrice;
-        '''
-        
         return 1./self.feq + 1./y + (self.T*(y-self.c) - (1+y/self.feq))/(self.c*( m.pow(1+y/self.feq,self.feq*self.T)-1)+y)
-        
-    
+
     def getModDuration(self, curve):
 
         MacDuration = self.getMacDuration(curve);
         y = self.getYTM(self.getBondPrice(curve))
         return MacDuration / (1+y/self.feq)
+
 
     def getDV01(self, curve):
         
@@ -71,4 +61,9 @@ class Bond(object):
         error_function = lambda y: abs(bondPrice - self.getBondPrice_usingYTM(y));
         result = op.fmin(error_function,[0.05], disp = 0);
         return result[0];
+    
+    def getConvexity(self, curve):
+        bondPrice = self.getBondPrice(curve)
+        y = self.getYTM(bondPrice)
+        
         

@@ -12,3 +12,6 @@ def readFile (fileName,nl_skip=0):
     
     T,DF=zip(*lines)
     return np.array(T).astype(float).tolist(), (np.array(DF).astype(float)/100).tolist()
+
+
+    
