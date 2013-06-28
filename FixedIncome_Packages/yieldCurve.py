@@ -174,6 +174,9 @@ class YieldCurve(object):
             while i < len(self.T) and not(self.T[i-1] <= t < self.T[i]):
                 i += 1
             if i == len(self.T):
+                if self.T[i-1] == t:
+                    newrates.append(rates[i-1])
+                    newT.append(t)
                 break
             range_int = self.T[i] - self.T[i-1]
             new_r = (rates[i] * (t - self.T[i-1]) + rates[i-1] * (self.T[i] - t)) / range_int
@@ -185,5 +188,7 @@ class YieldCurve(object):
         newT, newrates = self.getInterpolatedRates(T_int, feq)
         newDF = spotRates_to_DF(newrates, newT, feq)
         return newT, newDF
+    
+    
         
                 
