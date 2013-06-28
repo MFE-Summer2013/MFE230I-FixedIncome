@@ -4,7 +4,6 @@ Created on Jun 21, 2013
 @author: Billy
 '''
 
-import yieldCurve as ys
 import numpy as np
 from scipy import optimize as op
 import math as m
@@ -42,7 +41,8 @@ class Bond(object):
     def getMacDuration(self, curve):
         
         bondPrice = self.getBondPrice(curve)
-        
+        y = self.getYTM(bondPrice)
+        '''
         timeStamp = np.arange(1.0/self.feq, self.T + 1.0/self.feq, 1.0/self.feq)
         timeStamp, DF = curve.getInterpolatedDF(timeStamp,self.feq)
         
@@ -50,6 +50,10 @@ class Bond(object):
         for t, df in zip(timeStamp, DF):
             sumDuration += t * df * self.face * self.c / self.feq
         return sumDuration / bondPrice;
+        '''
+        
+        return 1/self.feq + 1/y + (self.T*(y-self.c) - (1+y/self.feq))/(self.c*((1+y/self.feq)^(self.n*self.T)-1)+y)
+        
     
     def getModDuration(self, curve):
 
