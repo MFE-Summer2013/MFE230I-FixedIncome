@@ -4,7 +4,6 @@ Created on Jun 21, 2013
 @author: Billy
 '''
 
-import yieldCurve as ys
 import numpy as np
 from scipy import optimize as op
 import math as m
