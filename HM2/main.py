@@ -19,7 +19,7 @@ font = {'family' : 'Arial'}
 matplotlib.rc('font', **font)
 
 ## READ DATA FROM THE FILE
-T, DF = readData.readFile('HW1_data.csv',1)
+T, DF = readData.readFile('HW1_data.csv')
 
 #FIT POLYNOMIAL MODEL
 from IR_Models import Polynomial
