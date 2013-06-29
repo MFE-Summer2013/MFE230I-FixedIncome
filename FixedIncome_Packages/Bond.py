@@ -66,5 +66,10 @@ class Bond(object):
     def getConvexity(self, curve):
         bondPrice = self.getBondPrice(curve)
         y = self.getYTM(bondPrice)
-        
+        c = self.c
+        n = self.feq
+        T = self.T
+        num = 2*c/y/y *(m.pow(1+y/n, n*T) - 1) - 2*c*T / y / (1+y/n) + T*(T+1/n)*(y-c) / (1+y/n) / (1+y/n)
+        den = c * (m.pow(1+y/n, n*T) - 1) + y
+        return num / den 
         

@@ -121,7 +121,7 @@ class YieldCurve(object):
         Compute the forward rates
         '''
         if feq == -1:
-            forwardRates = [-m.log(self.Df[0]) / self.T[0]]
+            forwardRates = [-m.log(self.DF[0]) / self.T[0]]
             for i in range(len(self.DF)-1):
                 dT = self.T[i+1] - self.T[i]
                 forwardRates.append(-m.log(self.DF[i+1]/self.DF[i]) / dT)
