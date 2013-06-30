@@ -285,11 +285,50 @@ print "\n ========== QUESTION 7 ==============\n"
 
 T = np.arange(1,31,1)
 
-for i in range(size):
-    currentRates =  np.asarray(rawData.iloc[i:i+1,1:])[0]
+forwardRates = []
+for i in range(size+1):
+    currentRates =  np.asarray(rawData.iloc[i:i+1,1:])[0] / 100
     DF           =  yc.spotRates_to_DF(currentRates, T)
     myCurve      =  yc.YieldCurve()
-    myCurvae
+    myCurve.setCurve(T, DF)
+    forwardRates.append(myCurve.getForwardRates_PeriodByPeriod())
+
+forwardRates = pd.DataFrame(forwardRates)
+changeForwardRates = forwardRates.shift(1) - forwardRates
+changeForwardRates = np.asmatrix(changeForwardRates.iloc[1:, :])
+oneYearForward = np.transpose(np.asarray(forwardRates.iloc[1:, 0:1]))[0]
+
+print oneYearForward
+
+STDEV = []
+for i in range(size):
+    currentBatch = changeForwardRates[i:i+60];
+    STDEV.append(np.std(currentBatch,axis = 0))
+    
+STDEV = np.transpose(STDEV)
+
+'''
+for i in STDEV:
+    print i 
+
+index = [1, 3, 5, 10, 20, 30]
+fig = plt.figure(8)
+for i,t in enumerate(index):
+    ax1 = fig.add_subplot(2,3,i+1)
+    ax1.plot(STDEV[t-1].tolist()[0], label = 'Std of %d-year Forward rates change'%(t))
+    plt.legend(loc = 4,prop={'size':10})
+    ax2 = ax1.twinx()
+    ax2.plot(oneYearForward,'r--', label='One Year Forward Rate')
+    ax1.set_xlim(ax1.get_xlim()[::-1]) 
+    '''
+
+correlation = np.corrcoef(np.transpose(changeForwardRates))
+eigenvalue, eigenvector = np.linalg.eig(correlation)
+print eigenvector
+
+plt.figure(9)
+plt.plot(eigenvector[:,0],label='First')
+plt.plot(eigenvector[:,1],label='Second')
+plt.plot(eigenvector[:,2],label='Third')
 
 plt.show()
-
