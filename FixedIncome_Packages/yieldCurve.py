@@ -99,7 +99,7 @@ class YieldCurve(object):
                 rates.append(-m.log(df) / t)
         else:          ##DISCRETE COMPOUNDING RATES
             for t, df in zip(self.T, self.DF):
-                rates.append((pow(df, - 1/(t*feq))-1)*feq)
+                rates.append((pow(df, - 1.0/(t*feq))-1)*feq)
         return rates
 
     def exportSpotRates(self, exportFileName, feq=-1):

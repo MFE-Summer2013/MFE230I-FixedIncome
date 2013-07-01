@@ -16,3 +16,11 @@ model = SHL.Simple_LeeHo(0.015)
 model.estimate(rates)
 model.print_tree()
 
+from Product import Mortgage
+
+mort = Mortgage.Mortgage(100,0.055,6,1)
+mort.tree_withoutPrepayment(model, True)
+mort.paymentSchedule(True)
+mort.optionPayoff(model, True)
+mort.optionvalue(model, True)
+mort.prin_and_int_pathThrough(model, True)
