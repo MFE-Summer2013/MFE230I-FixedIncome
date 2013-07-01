@@ -17,7 +17,7 @@ if __name__ == '__main__':
 #Setting Fond of Curve
 font = {'family' : 'Arial'}
 matplotlib.rc('font', **font)
-'''
+
 
 ## QUESTION 1
 ## READ DATA FROM THE FILE
@@ -75,9 +75,13 @@ for i,s in enumerate(shift):
     plt.plot(T_par,approxChangeD, '-', label='Approx D');
     plt.plot(T_par,exactChange, '-', label='Exact')
     plt.title("Shifts = %g bps"%(s*10000))
-    plt.legend(loc = 4,prop={'size':10})
     
-'''
+    if i%2 == 1:
+        plt.legend(loc = 4,prop={'size':10})
+    else:
+        plt.legend(loc = 1,prop={'size':10})
+    
+
 ## QUESTION 3
 import datetime as dt
 fileName = "termstruc.csv"
@@ -87,7 +91,7 @@ endDate   = dt.datetime(2008,12,31)
 rawData = pd.read_csv(fileName);
 rawData['Date'] = pd.to_datetime(rawData['Date'])
 rawData = rawData[(rawData['Date'] >= startDate) & (rawData['Date'] <= endDate)]
-'''
+
 sortedDate = rawData.sort(['1'])
 minData = sortedDate[0:1]
 maxData = sortedDate[-1:]
@@ -215,7 +219,6 @@ plt.ylabel('Spot / Forward Rates')
 plt.xlabel('T')
 plt.legend(loc = 1,prop={'size':10})
 
-'''
 
 ## QUESTION 4
 
@@ -260,13 +263,10 @@ correlationMatrix =  np.corrcoef(changeData[[0, 2, 4, 9, 19, 29]])
 print correlationMatrix
 
 
-
-
 print "\n========= QUESTION 6 ==========\n"
 
 correlationMatrix = np.corrcoef(changeData)
 eigenvalue, eigenvector = np.linalg.eig(correlationMatrix)
-
 
 '''
 plt.figure(6)
@@ -279,7 +279,7 @@ plt.figure(7)
 plt.plot(eigenvector[:,0],label='First')
 plt.plot(eigenvector[:,1],label='Second')
 plt.plot(eigenvector[:,2],label='Third')
-
+plt.legend(loc = 4,prop={'size':10})
 
 print "\n ========== QUESTION 7 ==============\n"
 
@@ -307,7 +307,7 @@ for i in range(size):
     
 STDEV = np.transpose(STDEV)
 
-'''
+
 for i in STDEV:
     print i 
 
@@ -320,15 +320,17 @@ for i,t in enumerate(index):
     ax2 = ax1.twinx()
     ax2.plot(oneYearForward,'r--', label='One Year Forward Rate')
     ax1.set_xlim(ax1.get_xlim()[::-1]) 
-    '''
 
-correlation = np.corrcoef(np.transpose(changeForwardRates))
+changeForwardRates = np.transpose(changeForwardRates)
+correlation = np.corrcoef(changeForwardRates[[0, 2, 4, 9, 19, 29]])
+print correlation
+
+correlation = np.corrcoef(changeForwardRates)
 eigenvalue, eigenvector = np.linalg.eig(correlation)
-print eigenvector
 
 plt.figure(9)
 plt.plot(eigenvector[:,0],label='First')
 plt.plot(eigenvector[:,1],label='Second')
 plt.plot(eigenvector[:,2],label='Third')
-
+plt.legend(loc = 4,prop={'size':10})
 plt.show()

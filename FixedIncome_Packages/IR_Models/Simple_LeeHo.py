@@ -38,6 +38,23 @@ class Simple_LeeHo(object):
             self.tree.append(newRates)
     
     def print_tree(self):
+        
+        treeSize = len(self.tree)
+        
+        print "INTEREST RATE TREE"
+
+        for i in range(treeSize):
+            sys.stdout.write("%g\t\t"%(i))
+        sys.stdout.write("\n")
+        for j in range(treeSize):
+            for i in range(j):
+                sys.stdout.write("\t\t")
+            for i in range(j,treeSize):
+                sys.stdout.write("%f\t"%(self.tree[i][j]))
+            sys.stdout.write("\n")
+        print ""
+        
+        '''
         print "THE INTEREST RATE TREE:"
         size = len(self.tree)
         for i, rates in enumerate(self.tree):
@@ -47,6 +64,7 @@ class Simple_LeeHo(object):
             for rate in rates:
                 sys.stdout.write("%f\t"%rate) 
             sys.stdout.write("\n")
+        '''
             
 def errorPrice(m, *data):
     
